@@ -78,6 +78,9 @@ app.use(function(req, res) {
       case 'redirect':
         res.redirect(info.url);
         break;
+      case 'frame':
+        res.render('frame', info);
+        break;
     }
   });
 });
