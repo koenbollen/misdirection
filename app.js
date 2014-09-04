@@ -22,6 +22,8 @@ var config = nconf.env().argv().file('localconfig.json').defaults({
   sessionSecret: '017b856lz'
 });
 
+var directions = require('./lib/directions');
+
 var app = express();
 
 if('test'==process.env.NODE_ENV) {
@@ -63,6 +65,20 @@ app.get(config.get('adminPath'), function(req, res) {
     empty: function(form) {
       res.send(form.toHTML());
     },
+  });
+});
+
+app.use(function(req, res) {
+  directions.find(req.path, function(err, info) {
+    if(!info) {
+      res.send(404);
+      return;
+    }
+    switch(info.type) {
+      case 'redirect':
+        res.redirect(info.url);
+        break;
+    }
   });
 });
 
