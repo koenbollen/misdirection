@@ -19,7 +19,7 @@ var config = nconf.env().argv().file('localconfig.json').defaults({
     namespace: 'misdirection:'
   },
   adminPath: '/admin',
-  sessionSecret: '017b856lz'
+  sessionSecret: 'please change the sessionSecret in the localconfig.json'
 });
 
 var directions = require('./lib/directions');
@@ -32,19 +32,26 @@ if('test'==process.env.NODE_ENV) {
 var db = redis.createClient();
 db.namespace = config.get('redis:namespace');
 
-// all environments
 app.set('port', config.get('PORT'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(methodOverride());
-app.use(session({ resave: true,
-                  saveUninitialized: true,
-                  secret: config.get('sessionSecret') }));
+
+var sessionSecret = config.get('sessionSecret');
+if(sessionSecret.indexOf('please')===0) {
+  console.error('warning:', sessionSecret);
+}
+app.use(session({
+  name: 'misdirection.sid',
+  resave: true,
+  saveUninitialized: true,
+  secret: sessionSecret
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
 
-// development only
 if ('development' == app.get('env')) {
   app.use(morgan('dev'));
   app.use(errorHandler());
