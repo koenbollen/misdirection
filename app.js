@@ -81,6 +81,9 @@ app.use(function(req, res) {
       case 'frame':
         res.render('frame', info);
         break;
+      case 'largetype':
+        res.render('largetype', info);
+        break;
     }
   });
 });
