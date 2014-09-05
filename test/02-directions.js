@@ -136,4 +136,14 @@ describe('create(name, info, callback)', function() {
         });
     });
   });
+  it('should error when type/url are missing', function(done) {
+    directions.create('/test', {
+      test: 'ok'
+    }, function(err, info, result) {
+      assert.notEqual(null, err);
+      assert.equal('missing info field: url', err.message);
+      assert.equal(null, info);
+      done();
+    });
+  });
 });
