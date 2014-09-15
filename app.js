@@ -2,16 +2,14 @@
 var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
 var express = require('express');
-var forms = require('forms');
-var fields = forms.fields;
-var validations = forms.validations;
 var methodOverride = require('method-override');
 var morgan = require('morgan');
-var redis = require('redis');
 var multer = require('multer');
 var nconf = require('nconf');
 var path = require('path');
+var redis = require('redis');
 var session = require('express-session');
+var url = require('url');
 
 var config = nconf.env().argv().file('localconfig.json').defaults({
   PORT: 3000,
@@ -57,23 +55,6 @@ if ('development' == app.get('env')) {
   app.use(errorHandler());
   app.use(config.get('adminPath'), express.static(path.join(__dirname, 'public')));
 }
-
-
-app.get(config.get('adminPath'), function(req, res) {
-  var form = forms.create({
-    key: fields.string({required:true, placeHolder: '/path-key'})
-  });
-  form.handle(req, {
-    success: function(form) {
-    },
-    error: function(form) {
-      res.send(form.toHTML());
-    },
-    empty: function(form) {
-      res.send(form.toHTML());
-    },
-  });
-});
 
 app.use(function(req, res) {
   directions.find(req.path, function(err, info) {
