@@ -75,7 +75,11 @@ app.use(function(req, res) {
         if(info.hidden) {
           res.render('frame', info);
         } else {
-          res.redirect(info.url);
+          var status = 302;
+          if(info.permanent) {
+            status = 301;
+          }
+          res.redirect(status, info.url);
         }
         break;
       case 'largetype':

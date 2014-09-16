@@ -36,9 +36,15 @@ html
 
           .extra.extra-redirect
             .control
+              label Permanent
+              input(type='checkbox', name='permanent', checked=req.body.permanent)
+              | 301 Moved Permanently
+
+            .control
               label Hidden
               input(type='checkbox', name='hidden', checked=req.body.hidden)
               | hide redirect in a frame
+              .help overrules the 'permanent' option.
 
           .extra.extra-largetype
             .control

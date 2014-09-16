@@ -11,7 +11,6 @@ exports.route = function(server) {
   });
 
   server.post(app.config.get('controlpanel:path'), function(req, res) {
-    console.log(req.body);
     if(req.body.name) {
       var name = req.body.name;
       req.body.name = undefined;

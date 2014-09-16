@@ -15,3 +15,7 @@ html, body, div, a, p, input, button {
 .extra {
 	display: none;
 }
+
+.control .help {
+	display: none;
+}
