@@ -16,7 +16,9 @@ var config = nconf.env().argv().file('localconfig.json').defaults({
   redis: {
     namespace: 'misdirection:'
   },
-  adminPath: '/admin',
+  controlpanel: {
+    path: '/cp'
+  },
   sessionSecret: 'please change the sessionSecret in the localconfig.json'
 });
 
@@ -53,32 +55,37 @@ app.use(multer());
 if ('development' == app.get('env')) {
   app.use(morgan('dev'));
   app.use(errorHandler());
-  app.use(config.get('adminPath'), express.static(path.join(__dirname, 'public')));
+  app.use(config.get('controlpanel:path'), express.static(path.join(__dirname, 'public')));
 }
-
-app.use(function(req, res) {
-  directions.find(req.path, function(err, info) {
-    if(!info) {
-      res.send(404);
-      return;
-    }
-    switch(info.type) {
-      case 'redirect':
-        res.redirect(info.url);
-        break;
-      case 'frame':
-        res.render('frame', info);
-        break;
-      case 'largetype':
-        res.render('largetype', info);
-        break;
-    }
-  });
-});
 
 exports.config = config;
 exports.server = app;
 exports.redis = db;
+
+require('./routes/controlpanel').route(app);
+
+app.use(function(req, res) {
+  directions.find(req.path, function(err, info) {
+    if(!info) {
+      res.status(404).end();
+      return;
+    }
+    switch(info.type) {
+      case 'redirect':
+        if(info.hidden) {
+          res.render('frame', info);
+        } else {
+          res.redirect(info.url);
+        }
+        break;
+      case 'largetype':
+        res.render('largetype', info);
+        break;
+      default:
+        throw new Error('invalid type: ' + info.type);
+    }
+  });
+});
 
 if (require.main === module) {
   app.listen(app.get('port'), function(){

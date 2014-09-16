@@ -1,0 +1,17 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+html, body, div, a, p, input, button {
+	font-family: Helvetica;
+}
+
+.container {
+	width: 960px;
+	margin: 0 auto;
+}
+
+.extra {
+	display: none;
+}

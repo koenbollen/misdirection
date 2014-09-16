@@ -1,0 +1,51 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title #{req.hostname} - misdirection
+    link(rel='stylesheet',href='style.css')
+  body
+
+    .container
+
+      h1 #{req.hostname} - misdirection
+
+      hr
+
+      if err
+        .error= err
+        hr
+
+      form(method='post')
+
+        //-input#search.search(type='text', name='key', placeholder='search: /some-path')
+
+        .create
+          .control
+            label Name
+            input(type='text', name='name', placeholder='/some-path', value=req.body.name)
+          .control
+            label URL
+            input(type='text', name='url', placeholder='http://example.org/some/target', value=req.body.url)
+          .control
+            label type
+            select(name='type')
+              option(value='redirect', selected=value=req.body.type=='redirect'?true:undefined) Redirect
+              option(value='largetype', selected=value=req.body.type=='largetype'?true:undefined) Large Type
+              option(value='rproxy', selected=value=req.body.type=='rproxy'?true:undefined) Reverse Proxy
+
+          .extra.extra-redirect
+            .control
+              label Hidden
+              input(type='checkbox', name='hidden', checked=req.body.hidden)
+              | hide redirect in a frame
+
+          .extra.extra-largetype
+            .control
+              label Font Size
+              input(type='number', name='fontsize', value=req.body.fontsize||42)
+
+          .submit
+            input(type='submit')
+
+    script(src='main.js')
