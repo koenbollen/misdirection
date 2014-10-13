@@ -51,6 +51,11 @@ html
               label Font Size
               input(type='number', name='fontsize', value=req.body.fontsize||42)
 
+          .optional
+            .control
+              label Callback URL
+              input(type='url', name='callback', placeholder='http://some.url/', value=req.body.callback)
+
           .submit
             input(type='submit')
 
