@@ -26,4 +26,10 @@ exports.route = function(server) {
       res.render('controlpanel', {req:req});
     }
   });
+
+  server.get(app.config.get('controlpanel:path') + '/a/search', function(req, res) {
+    //res.status(400).send('random reason ' + Math.random());
+    res.setHeader('Content-Type', 'application/json');
+    res.send(req.query);
+  });
 };

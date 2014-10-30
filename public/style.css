@@ -12,10 +12,31 @@ html, body, div, a, p, input, button {
 	margin: 0 auto;
 }
 
+.search {
+	width: 100%;
+	font-size: 24pt;
+	padding: .5em 1em;
+	color: #123456;
+	border: 1px solid #123456;
+	box-sizing: border-box;
+	border-radius: .5em;
+	margin: 10px 0;
+}
+
 .extra {
 	display: none;
 }
 
 .control .help {
 	display: none;
+}
+
+.error {
+	background: #ffaa99;
+	border-radius: 10px;
+	border: 1px solid #aa0000;
+	color: #a00;
+	font-weight: bold;
+	margin: 15px 0;
+	padding: .5em 1em;
 }
