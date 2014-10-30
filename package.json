@@ -7,6 +7,11 @@
     "test": "mocha"
   },
   "author": "Koen Bollen <meneer@koenbollen.nl>",
+  "homepage": "https://github.com/koenbollen/misdirection",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koenbollen/misdirection.git"
+  },
   "license": "ISC",
   "dependencies": {
     "async": "^0.9.0",
