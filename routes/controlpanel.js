@@ -28,8 +28,15 @@ exports.route = function(server) {
   });
 
   server.get(app.config.get('controlpanel:path') + '/a/search', function(req, res) {
-    //res.status(400).send('random reason ' + Math.random());
-    res.setHeader('Content-Type', 'application/json');
-    res.send(req.query);
+    if(!req.query.q) {
+      res.status(400).send('missing paramater: q');
+      return;
+    }
+
+    directions.search(req.query.q, function(err, result) {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).send(result);
+    });
+
   });
 };
