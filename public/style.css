@@ -40,3 +40,32 @@ html, body, div, a, p, input, button {
 	margin: 15px 0;
 	padding: .5em 1em;
 }
+
+.panes {
+	width: 960px;
+}
+
+.panes .pane {
+	box-sizing: border-box;
+	width: 480px;
+	height: 500px;
+}
+
+.panes .pane-left {
+	float: left;
+	height: 500px;
+}
+.panes .pane-right {
+	float: right;
+	border-left: 1px solid #cFcFcF;
+}
+
+
+
+.directions .direction.selected {
+	background: #efefef;
+}
+
+.directions .direction.editing {
+	font-weight: bold;
+}

@@ -1,6 +1,24 @@
 
 (function(window, document) {
 
+  var editing = false;
+  var selected = false;
+
+  var editform = document.getElementById('edit');
+  var result_list = document.querySelector('ul.directions');
+
+  function normalize(input) {
+    var norm = input.trim().toLowerCase();
+    norm = norm.replace(/[\/.+ _-]+/g, '/');
+    if(norm[0]=='/') {
+      norm = norm.substr(1,norm.length);
+    }
+    if(norm[norm.length-1]=='/') {
+      norm = norm.substr(0,norm.length-1);
+    }
+    return norm;
+  }
+
   function get(path, callback) {
     var r = new XMLHttpRequest();
     r.open("GET", path, true);
@@ -67,11 +85,24 @@
     };
   }
 
+  function clearDirectionsStyle() {
+    Array.prototype.forEach.call(document.querySelectorAll('.directions .direction'), function(direction) {
+      direction.classList.remove('selected');
+      direction.classList.remove('editing');
+    });
+  }
+
   function onDirectionClick(e) {
-    console.log(this.direction);
+    if(editing) {
+      return;
+    }
+    selected = true;
+    editform.selected = this.direction;
+    clearDirectionsStyle();
+    this.classList.add('selected');
     this.classList.add('editing');
     for( var key in this.direction ) {
-      var input = document.querySelector('[name="'+key+'"]');
+      var input = editform.querySelector('[name="'+key+'"]');
       if(input) {
         if(input.type == 'checkbox') {
           input.checked = this.direction[key] == 'true' ? 'checked' : undefined;
@@ -85,18 +116,34 @@
   }
 
   function onSearchKeyUp(e) {
-    if(this.prev === this.value || this.value.trim().length <= 0) {
+    if(!editing && !selected) {
+      var name = document.querySelector('input[name=\'name\']');
+      name.value = '/'+ normalize(this.value);
+    }
+    if(this.prev === this.value ) {
       return;
     }
     this.prev = this.value;
 
+    if(!editing && selected) {
+      selected = false;
+      editing = false;
+      editform.direction = undefined;
+      editform.reset();
+    }
+
+    result_list.innerHTML = '';
+
+
+    if(this.value.trim().length <= 0) {
+      return;
+    }
     get('./a/search?q='+escape(this.value), function(err, resp, body) {
       if(err) {
         return display_error(err + body, 1000, 'auto-search');
       }
-      console.log(body);
-      var ul = document.querySelector('ul.directions');
-      ul.innerHTML = '';
+      //console.log(body);
+      result_list.innerHTML = '';
       var first = true;
       body.forEach(function(d) {
         var li = document.createElement('li');
@@ -108,11 +155,9 @@
         li.innerHTML = '<span class="name">'+d.name+'</span> <small class="type">('+d.type+')</small> → <span class="url">'+d.url+'</span>';
         li.direction = d;
         li.onclick = onDirectionClick;
-        ul.appendChild(li);
+        result_list.appendChild(li);
       });
     });
-
-    console.log(this.value);
   }
 
   function onTypeChange(e) {
@@ -136,7 +181,29 @@
     type.onchange = onTypeChange;
     onTypeChange.call(type);
 
+    // Hook all form inputs so we don't change them while editing:
+    var inputs = editform.querySelectorAll('input, select');
+    var startEditing = function() {
+      if(!editing) {
+        editform.querySelector('.save').disabled = false;
+        editform.querySelector('.editing').style.display = '';
+      }
+      editing = true;
+    };
+    Array.prototype.forEach.call(inputs, function(input) {
+      input.onkeydown = startEditing;
+    });
 
+    editform.querySelector('input.cancel').onclick = function(e) {
+      clearDirectionsStyle();
+      selected = false;
+      editing = false;
+      editform.direction = undefined;
+      editform.reset();
+
+      editform.querySelector('.save').disabled = true;
+    editform.querySelector('.editing').style.display = 'none';
+    };
 
   });
 })(window, document);

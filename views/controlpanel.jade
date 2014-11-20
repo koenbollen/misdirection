@@ -18,7 +18,7 @@ html
 
       .panes
         .pane.pane-left
-          form(method='post')
+          form#edit(method='post')
             .create
               .control
                 label Name
@@ -50,8 +50,10 @@ html
                   label Font Size
                   input(type='number', name='fontsize', value=req.body.fontsize||42)
 
-              .submit
-                input(type='submit',value='Save')
+              .buttons
+                input(type='button',value='Cancel').cancel
+                input(type='submit',value='Save',disabled).save
+                span.editing(style='display:none') editing
         .pane.pane-right
           ul.directions
             if directions
