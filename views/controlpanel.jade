@@ -36,12 +36,12 @@ html
               .extra.extra-redirect
                 .control
                   label Permanent
-                  input(type='checkbox', name='permanent', checked=req.body.permanent)
+                  input(type='checkbox', name='permanent', checked=req.body.permanent=='true'?'checked':undefined)
                   | 301 Moved Permanently
 
                 .control
                   label Hidden
-                  input(type='checkbox', name='hidden', checked=req.body.hidden)
+                  input(type='checkbox', name='hidden', checked=req.body.hidden=='true'?'checked':undefined)
                   | hide redirect in a frame
                   .help overrules the 'permanent' option.
 
@@ -51,7 +51,7 @@ html
                   input(type='number', name='fontsize', value=req.body.fontsize||42)
 
               .submit
-                input(type='submit')
+                input(type='submit',value='Save')
         .pane.pane-right
           ul.directions
             if directions

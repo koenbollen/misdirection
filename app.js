@@ -72,11 +72,11 @@ app.use(function(req, res) {
     }
     switch(info.type) {
       case 'redirect':
-        if(info.hidden) {
+        if(info.hidden == true || info.hidden.toString() == 'true') { // value from redis.
           res.render('frame', info);
         } else {
           var status = 302;
-          if(info.permanent) {
+          if(info.permanent === true || info.permanent.toString() == 'true') { // value from redis.
             status = 301;
           }
           res.redirect(status, info.url);

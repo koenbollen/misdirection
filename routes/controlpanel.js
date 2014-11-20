@@ -1,10 +1,16 @@
 
+var _ = require('lodash');
 var url = require('url');
 
 var app = require('../app');
 var directions = require('../lib/directions');
 
 exports.route = function(server) {
+
+  var checkboxes = [
+    'hidden',
+    'permanent',
+  ];
 
   server.get(app.config.get('controlpanel:path'), function(req, res) {
     res.render('controlpanel', {req:req});
@@ -14,11 +20,20 @@ exports.route = function(server) {
     if(req.body.name) {
       var name = req.body.name;
       req.body.name = undefined;
+
+      _.each(checkboxes, function(checkbox) {
+        if(req.body[checkbox] == 'on') {
+          req.body[checkbox] = true;
+        } else {
+          req.body[checkbox] = false;
+        }
+      });
+
       directions.create(name, req.body, function(err, info, result) {
         if(err) {
           res.render('controlpanel', {req:req, err:err});
         } else {
-          console.log(info);
+          //console.log(info);
           res.redirect(url.resolve('/',info.name));
         }
       });

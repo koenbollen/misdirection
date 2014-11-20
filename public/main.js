@@ -67,6 +67,23 @@
     };
   }
 
+  function onDirectionClick(e) {
+    console.log(this.direction);
+    this.classList.add('editing');
+    for( var key in this.direction ) {
+      var input = document.querySelector('[name="'+key+'"]');
+      if(input) {
+        if(input.type == 'checkbox') {
+          input.checked = this.direction[key] == 'true' ? 'checked' : undefined;
+        } else {
+          input.value = this.direction[key];
+        }
+      } else {
+        console.warn('couldn\'t find input for field: ' + key);
+      }
+    }
+  }
+
   function onSearchKeyUp(e) {
     if(this.prev === this.value || this.value.trim().length <= 0) {
       return;
@@ -78,6 +95,21 @@
         return display_error(err + body, 1000, 'auto-search');
       }
       console.log(body);
+      var ul = document.querySelector('ul.directions');
+      ul.innerHTML = '';
+      var first = true;
+      body.forEach(function(d) {
+        var li = document.createElement('li');
+        li.classList.add('direction');
+        if(first) {
+          li.classList.add('selected');
+          first = false;
+        }
+        li.innerHTML = '<span class="name">'+d.name+'</span> <small class="type">('+d.type+')</small> → <span class="url">'+d.url+'</span>';
+        li.direction = d;
+        li.onclick = onDirectionClick;
+        ul.appendChild(li);
+      });
     });
 
     console.log(this.value);
