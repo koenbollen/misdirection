@@ -42,6 +42,7 @@ html, body, div, a, p, input, button {
 }
 
 .panes {
+	margin-top: 2em;
 	width: 960px;
 }
 
@@ -68,4 +69,49 @@ html, body, div, a, p, input, button {
 
 .directions .direction.editing {
 	font-weight: bold;
+}
+
+
+.create .control, .create input, .create input {
+	font-size: 14pt;
+}
+
+.create .control {
+	box-sizing: border-box;
+	border-bottom: 1px solid #cecece;
+	margin: 0;
+}
+.create .control label {
+	box-sizing: border-box;
+	display: inline-block;
+	border-right: 1px solid #cecece;
+	width: 150px;
+	margin: 0 1em 0 0;
+	padding: .5em;
+}
+.create .control input[type="text"], .create .control input[type="number"] {
+	border: 0;
+	margin: 0;
+	padding: .49em;
+	width: 275px;
+}
+.create .buttons {
+	margin-left: 150px;
+	padding: 1em;
+	text-align: right;
+}
+.create .buttons input {
+	padding: .5em;
+	border: 1px solid #cecece;
+	background: white;
+	border-radius: 5px;
+	margin: 0 0 0 .5em;
+}
+.create .buttons .editing {
+	padding: .5em 0;
+	color: #aeaeae;
+	margin-top: .4em;
+	float: left;
+	font-style: italic;
+	font-size: 10pt;
 }
