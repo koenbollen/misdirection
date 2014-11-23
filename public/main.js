@@ -118,7 +118,12 @@
   function onSearchKeyUp(e) {
     if(!editing && !selected) {
       var name = document.querySelector('input[name=\'name\']');
-      name.value = '/'+ normalize(this.value);
+      var normalized = normalize(this.value);
+      if( normalized.length > 0 ) {
+        name.value = '/'+ normalized;
+      } else {
+        name.value = '';
+      }
     }
     if(this.prev === this.value ) {
       return;
@@ -182,8 +187,11 @@
     onTypeChange.call(type);
 
     // Hook all form inputs so we don't change them while editing:
-    var inputs = editform.querySelectorAll('input, select');
-    var startEditing = function() {
+    var inputs = editform.querySelectorAll('input[type="text"], input[type="number"], select');
+    var startEditing = function(e) {
+      if([9, 27, 16, 17, 18, 91].indexOf(e.keyCode) != -1) {
+        return;
+      }
       if(!editing) {
         editform.querySelector('.save').disabled = false;
         editform.querySelector('.editing').style.display = '';
