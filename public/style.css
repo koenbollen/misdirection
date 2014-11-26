@@ -63,12 +63,30 @@ html, body, div, a, p, input, button {
 
 
 
+.directions {
+	list-style-type: none;
+	font-size: 14pt;
+	margin: 0;
+	padding: 0;
+}
+
+.directions .direction {
+	margin: 0;
+	padding: .5em 1em;
+	box-sizing: border-box;
+	border-top: 1px solid #cecece;
+}
+
+.directions .direction:first-child {
+	border-top: 0;
+}
+
 .directions .direction.selected {
-	background: #efefef;
+	background: #FAF9CC;
 }
 
 .directions .direction.editing {
-	font-weight: bold;
+	background: #A7CBEF;
 }
 
 
@@ -84,16 +102,20 @@ html, body, div, a, p, input, button {
 .create .control label {
 	box-sizing: border-box;
 	display: inline-block;
-	border-right: 1px solid #cecece;
 	width: 150px;
 	margin: 0 1em 0 0;
 	padding: .5em;
+	font-weight: bold;
+	text-align: right;
+	border: 1px solid transparent;
+	border-right: 1px solid #cecece;
 }
 .create .control input[type="text"], .create .control input[type="number"] {
 	border: 0;
 	margin: 0;
 	padding: .49em;
 	width: 275px;
+
 }
 .create .buttons {
 	margin-left: 150px;
@@ -115,3 +137,4 @@ html, body, div, a, p, input, button {
 	font-style: italic;
 	font-size: 10pt;
 }
+
