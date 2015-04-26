@@ -8,6 +8,7 @@ var multer = require('multer');
 var nconf = require('nconf');
 var path = require('path');
 var redis = require('redis');
+var request = require('request');
 var session = require('express-session');
 var url = require('url');
 
@@ -26,7 +27,7 @@ var directions = require('./lib/directions');
 
 var app = express();
 
-if('test'==process.env.NODE_ENV) {
+if('test' == process.env.NODE_ENV) {
   redis = require('fakeredis');
 }
 var db = redis.createClient();
@@ -50,7 +51,7 @@ app.use(session({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(multer());
+app.use(multer()); // Middleware for handling `multipart/form-data`.
 
 if ('development' == app.get('env')) {
   app.use(morgan('dev'));
@@ -66,6 +67,9 @@ require('./routes/controlpanel').route(app);
 
 app.use(function(req, res) {
   directions.find(req.path, function(err, info) {
+    if(err) {
+      throw err;
+    }
     if(!info) {
       res.status(404).end();
       return;
@@ -87,6 +91,9 @@ app.use(function(req, res) {
         break;
       default:
         throw new Error('invalid type: ' + info.type);
+    }
+    if(info.callback) {
+      request.post(info.callback).json(req).end(); // fire and forget
     }
   });
 });
