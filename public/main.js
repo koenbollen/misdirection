@@ -113,6 +113,7 @@
         console.warn('couldn\'t find input for field: ' + key);
       }
     }
+    onTypeChange.call(onTypeChange.select);
   }
 
   function onSearchKeyUp(e) {
@@ -124,6 +125,9 @@
       } else {
         name.value = '';
       }
+    }
+    if(e && ((e.keyCode == 13) || (e.length && e.length>0 && e[0].keyCode == 13))) {
+      document.querySelector('.direction.selected').onclick(e);
     }
     if(this.prev === this.value ) {
       return;
@@ -157,7 +161,19 @@
           li.classList.add('selected');
           first = false;
         }
-        li.innerHTML = '<span class="name">'+d.name+'</span> <small class="type">('+d.type+')</small> → <span class="url">'+d.url+'</span>';
+        var urldisplay = d.url;
+        if(urldisplay.length > 28) {
+          if(urldisplay.indexOf('https://')) {
+            urldisplay = urldisplay.substr(9);
+          }
+          if(urldisplay.indexOf('http://')) {
+            urldisplay = urldisplay.substr(8);
+          }
+          if(urldisplay.length > 28) {
+            urldisplay = urldisplay.substr(0,14)+'...'+urldisplay.substr(-14);
+          }
+        }
+        li.innerHTML = '<span class="name">'+d.name+'</span> <small class="type">('+d.type+')</small> → <span class="url">'+urldisplay+'</span>';
         li.direction = d;
         li.onclick = onDirectionClick;
         result_list.appendChild(li);
@@ -174,6 +190,21 @@
     if(extra !== null) {
       extra.style.display = 'block';
     }
+
+    var urllabel = document.querySelector('.url-label label');
+    var urlinput = document.querySelector('input[name="url"]');
+    if(!urllabel.defaultText) {
+      urllabel.defaultText = urllabel.innerHTML;
+      urlinput.defaultText = urlinput.placeholder;
+    }
+
+    if(this.value === 'largetype') {
+      urllabel.innerHTML = "Text:";
+      urlinput.placeholder = "lorem ipsum";
+    } else {
+      urllabel.innerHTML = urllabel.defaultText;
+      urlinput.placeholder = urlinput.defaultText;
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function() {
@@ -184,6 +215,7 @@
 
     var type = document.querySelector('select[name="type"]');
     type.onchange = onTypeChange;
+    onTypeChange.select = type;
     onTypeChange.call(type);
 
     // Hook all form inputs so we don't change them while editing:
@@ -210,7 +242,9 @@
       editform.reset();
 
       editform.querySelector('.save').disabled = true;
-    editform.querySelector('.editing').style.display = 'none';
+      editform.querySelector('.editing').style.display = 'none';
+
+      onTypeChange.call(type);
     };
 
   });

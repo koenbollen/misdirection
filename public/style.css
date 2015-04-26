@@ -1,3 +1,7 @@
+*, *:after, *:before {
+	box-sizing: border-box;
+}
+
 html, body {
 	margin: 0;
 	padding: 0;
@@ -10,6 +14,25 @@ html, body, div, a, p, input, button {
 .container {
 	width: 960px;
 	margin: 0 auto;
+}
+
+header h1 {
+	font-family: Helvetica;
+	font-weight: 100;
+	text-align: center;
+	text-transform: uppercase;
+	text-shadow: 0 3px 0 rgba(0,0,0,0.2);
+}
+footer {
+	font-family: Helvetica;
+	text-align: center;
+	color: #eee;
+	padding: 2em;
+	clear: both;
+}
+footer a {
+	color: #eee;
+	text-decoration: none;
 }
 
 .search {
@@ -75,6 +98,7 @@ html, body, div, a, p, input, button {
 	padding: .5em 1em;
 	box-sizing: border-box;
 	border-top: 1px solid #cecece;
+	cursor: pointer;
 }
 
 .directions .direction:first-child {
@@ -92,6 +116,18 @@ html, body, div, a, p, input, button {
 
 .create .control, .create input, .create input {
 	font-size: 14pt;
+}
+
+::-webkit-input-placeholder {
+	color: #eee;
+}
+
+::-moz-placeholder {
+	color: #eee;
+}
+
+*:focus {
+  outline: 0;
 }
 
 .create .control {
@@ -128,6 +164,9 @@ html, body, div, a, p, input, button {
 	background: white;
 	border-radius: 5px;
 	margin: 0 0 0 .5em;
+}
+.create .buttons input[disabled] {
+	color: #eee;
 }
 .create .buttons .editing {
 	padding: .5em 0;

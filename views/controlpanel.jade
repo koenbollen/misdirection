@@ -8,7 +8,8 @@ html
 
     .container
 
-      h1 #{req.hostname} - misdirection
+      header
+        h1 #{req.hostname} - misdirection
 
       .errorlist
         if err
@@ -21,13 +22,13 @@ html
           form#edit(method='post')
             .create
               .control
-                label Name
+                label Name:
                 input(type='text', name='name', placeholder='/some-path', value=req.body.name)
-              .control
-                label URL
+              .control.url-label
+                label URL:
                 input(type='text', name='url', placeholder='http://example.org/some/target', value=req.body.url)
               .control
-                label type
+                label type:
                 select(name='type')
                   option(value='redirect', selected=value=req.body.type=='redirect'?true:undefined) Redirect
                   option(value='largetype', selected=value=req.body.type=='largetype'?true:undefined) Large Type
@@ -36,12 +37,12 @@ html
 
               .extra.extra-redirect
                 .control
-                  label Permanent
+                  label Permanent:
                   input(type='checkbox', name='permanent', checked=req.body.permanent=='true'?'checked':undefined)
                   | 301 Moved Permanently
 
                 .control
-                  label Hidden
+                  label Hidden:
                   input(type='checkbox', name='hidden', checked=req.body.hidden=='true'?'checked':undefined)
                   | hide redirect in a frame
                   .help overrules the 'permanent' option.
@@ -62,6 +63,9 @@ html
                 li.direction= d.name
 
 
-
+      footer
+        |2015
+        | - <a href="http://www.isc.org/downloads/software-support-policy/isc-license/">LSC</a>
+        | - <a href="mailto:meneer@koenbollen.nl">Koen Bollen</a>
 
     script(src='main.js')
