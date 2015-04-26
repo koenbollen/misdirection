@@ -147,7 +147,7 @@
     if(this.value.trim().length <= 0) {
       return;
     }
-    get('./a/search?q='+escape(this.value), function(err, resp, body) {
+    get(window.location.href+'/a/search?q='+escape(this.value), function(err, resp, body) {
       if(err) {
         return display_error(err + body, 1000, 'auto-search');
       }
