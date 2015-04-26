@@ -1,3 +1,7 @@
+*, *:after, *:before {
+	box-sizing: border-box;
+}
+
 html, body {
 	margin: 0;
 	padding: 0;
@@ -12,6 +16,36 @@ html, body, div, a, p, input, button {
 	margin: 0 auto;
 }
 
+header h1 {
+	font-family: Helvetica;
+	font-weight: 100;
+	text-align: center;
+	text-transform: uppercase;
+	text-shadow: 0 3px 0 rgba(0,0,0,0.2);
+}
+footer {
+	font-family: Helvetica;
+	text-align: center;
+	color: #eee;
+	padding: 2em;
+	clear: both;
+}
+footer a {
+	color: #eee;
+	text-decoration: none;
+}
+
+.search {
+	width: 100%;
+	font-size: 24pt;
+	padding: .5em 1em;
+	color: #123456;
+	border: 1px solid #123456;
+	box-sizing: border-box;
+	border-radius: .5em;
+	margin: 10px 0;
+}
+
 .extra {
 	display: none;
 }
@@ -19,3 +53,127 @@ html, body, div, a, p, input, button {
 .control .help {
 	display: none;
 }
+
+.error {
+	background: #ffaa99;
+	border-radius: 10px;
+	border: 1px solid #aa0000;
+	color: #a00;
+	font-weight: bold;
+	margin: 15px 0;
+	padding: .5em 1em;
+}
+
+.panes {
+	margin-top: 2em;
+	width: 960px;
+}
+
+.panes .pane {
+	box-sizing: border-box;
+	width: 480px;
+	height: 500px;
+}
+
+.panes .pane-left {
+	float: left;
+	height: 500px;
+}
+.panes .pane-right {
+	float: right;
+	border-left: 1px solid #cFcFcF;
+}
+
+
+
+.directions {
+	list-style-type: none;
+	font-size: 14pt;
+	margin: 0;
+	padding: 0;
+}
+
+.directions .direction {
+	margin: 0;
+	padding: .5em 1em;
+	box-sizing: border-box;
+	border-top: 1px solid #cecece;
+	cursor: pointer;
+}
+
+.directions .direction:first-child {
+	border-top: 0;
+}
+
+.directions .direction.selected {
+	background: #FAF9CC;
+}
+
+.directions .direction.editing {
+	background: #A7CBEF;
+}
+
+
+.create .control, .create input, .create input {
+	font-size: 14pt;
+}
+
+::-webkit-input-placeholder {
+	color: #eee;
+}
+
+::-moz-placeholder {
+	color: #eee;
+}
+
+*:focus {
+  outline: 0;
+}
+
+.create .control {
+	box-sizing: border-box;
+	border-bottom: 1px solid #cecece;
+	margin: 0;
+}
+.create .control label {
+	box-sizing: border-box;
+	display: inline-block;
+	width: 150px;
+	margin: 0 1em 0 0;
+	padding: .5em;
+	font-weight: bold;
+	text-align: right;
+	border: 1px solid transparent;
+	border-right: 1px solid #cecece;
+}
+.create .control input[type="text"], .create .control input[type="number"] {
+	border: 0;
+	margin: 0;
+	padding: .49em;
+	width: 275px;
+
+}
+.create .buttons {
+	margin-left: 150px;
+	padding: 1em;
+	text-align: right;
+}
+.create .buttons input {
+	padding: .5em;
+	border: 1px solid #cecece;
+	background: white;
+	border-radius: 5px;
+	margin: 0 0 0 .5em;
+}
+.create .buttons input[disabled] {
+	color: #eee;
+}
+.create .buttons .editing {
+	padding: .5em 0;
+	color: #aeaeae;
+	margin-top: .4em;
+	float: left;
+	font-style: italic;
+	font-size: 10pt;
+}
+
